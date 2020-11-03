@@ -17,7 +17,8 @@ food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(0, -10)
 speed = 10
-wall = [vector(100,10),vector(100,20)]
+wall = []
+
 
 def change(x, y):
     "Change snake direction."
@@ -30,6 +31,15 @@ def inside(head):
 
 def getWall(head):
     return head in wall
+
+def createWall():
+    "create wall"
+    for y in range(-10,10) :
+        wall.append(vector(-100,y*10))
+    for y in range(-10,10) :
+        wall.append(vector(100,y*10))
+    for x in range(-4,5) :
+        wall.append(vector(x*10,100))
 
 def move():
     "Move snake forward one segment."
@@ -58,10 +68,11 @@ def move():
         snake.pop(0)
 
     clear()
+    "displey wall with 0.9 px solid"
+    for body in wall:
+        square(body.x, body.y, 9, 'black')
 
     for body in snake:
-        square(body.x, body.y, 9, 'black')
-    for body in wall:
         square(body.x, body.y, 9, 'black')
 
     square(food.x, food.y, 9, 'green')
@@ -77,5 +88,6 @@ onkey(lambda: change(speed, 0), 'Right')
 onkey(lambda: change(-speed, 0), 'Left')
 onkey(lambda: change(0, speed), 'Up')
 onkey(lambda: change(0, -speed), 'Down')
+createWall()
 move()
 done()
